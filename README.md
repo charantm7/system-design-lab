@@ -74,7 +74,7 @@
 - The other instance starts to serve the request
 - Client may experince the little downtime or the no DTM
 
-### Bottlenech scenarios
+### Bottleneck scenarios
 
 - Still the API gateway is the single point of failure
 - client may experience some latency due to laod balance
