@@ -244,3 +244,54 @@
 ### Why Backpressure is requried?
 
 - system have finite
+- accepting unlimited resources leads to the resource exhaustion
+- backpressure helps by rejecting the request and delaying them
+
+### Failure scenarios: backpressure down
+
+- request are accepted faster they are processed
+- queues are unbounded
+- memory disk will be exhausted
+
+---
+
+## Phase 6 - Observability
+
+> How do we know what happening in the system when things go wrong
+
+### Pillars of observability
+
+- Metrics
+- Logs
+- Traces
+
+### Why observability is needed
+
+- Distributed system often fail in some condition
+- The problems cannot be resolved from the client side
+- Observability used to identify the bottlenecks and point of failures
+- monittoring used to faster recovery and safer scaling
+
+### Logs
+
+- Logs capture the discrete information in the file
+- Each service need to log the success and failure of the request
+- Logs are helps us to understand what happend during the failure
+
+### Metrics
+
+- Metrics are the numerical measurement of the application
+- It may includes the error rate, request rate, and latency
+- Metrics helps to identify the trends and abnormal behaviour in the system
+
+### Trace
+
+- Traces shows how the single request flow through multiple services
+- They helps to identify the slow componenets
+- It helps in debugging the issue and latency issues
+
+### Failure scenarios: Missing observability
+
+- Can't identify the root cause like which part of the service causing error
+- Engineer needed more time to debug the error manually
+- Recovery time increases significantly
