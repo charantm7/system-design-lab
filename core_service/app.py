@@ -1,17 +1,17 @@
 import os
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
+import socket
 
 from database.model import Data
 from database.postgres_connection import get_db
 
 app = FastAPI()
-INSTANCE_ID = os.getenv("INSTANCE_ID", 'unkown')
 
 
 @app.get("/health")
 async def health_point():
-    return {"status": "ok", "instance": INSTANCE_ID}
+    return {"status": "ok", "instance": socket.gethostname()}
 
 
 @app.post("/data")
