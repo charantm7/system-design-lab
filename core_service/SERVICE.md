@@ -41,3 +41,41 @@
   - The database is the importance dependency for the '/data' endpoints
   - If database is not available, the service is not able to proces the request
   - This raw failures helps to understand where the resilience mechanism is needed later
+
+## Phase 2 - Horizonatal scaling
+
+### Implementation
+
+- created Dockerfile and added the service like system-design, db and nginx.
+- Build the docker file and the system-design image is created
+- The composing the docker-compose.yml like docker compose up and with 3 instances
+- The docker starts the 3 instance at a time
+- Then added the nginx as the load balancer for the instances
+
+### Workflow
+
+- When the request is sent to server the nginx route the request to instances
+- The request is routed to all the instances one by one using round robin.
+- The request is accepted by all the instances one by one
+- The response is delevered to the client
+
+### Observation
+
+> First observation
+
+- now 100 request are sent to only single instance and it took
+- Requests per second: 1337.42/sec
+- Time per request: 7.477ms
+
+> Second observation
+
+- now 100 request are sent to all 3 instances and i took
+- Requests per second: 2179.60/sec
+- Time per request: 4.588ms
+
+> Total observation
+
+- Here we can observe that how the horizontal scalling reduce the overload on single instance
+- And reduce the latency and increase the accepatance of the request
+- The Request per second from 1337/s --> 2179/s its approx 1.6x times request rate is increased
+- And latency is reduced from 7.477ms --> 4.588ms per request
