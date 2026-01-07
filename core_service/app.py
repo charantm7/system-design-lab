@@ -28,7 +28,7 @@ async def create_data(item: str, db: Session = Depends(get_db)):
 async def read_data(item: int, db: Session = Depends(get_db)):
     cache_key = f"Data:{item}"
 
-    # try cache
+    # try cache not db
     cached = redis_client.get(cache_key)
 
     if cached:
