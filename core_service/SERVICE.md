@@ -79,3 +79,20 @@
 - And reduce the latency and increase the accepatance of the request
 - The Request per second from 1337/s --> 2179/s its approx 1.6x times request rate is increased
 - And latency is reduced from 7.477ms --> 4.588ms per request
+
+## Added Caching
+
+- implemented caching layers using redis
+- it is the in memory caching that stores in the ram of the local system
+
+### observation
+
+- If the data is not stored in the cache, initially the data is queried from the DB
+- once the data is returned from the DB at the same time the data is stored in the cache also
+- In the next request the cache return the data if the were requested for the same data
+
+### pros
+
+- It reduces the load on the database
+- it reduces the response latency
+- It increase the performance of the application
