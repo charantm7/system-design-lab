@@ -96,3 +96,25 @@
 - It reduces the load on the database
 - it reduces the response latency
 - It increase the performance of the application
+
+---
+
+## Timeout, Retries and backpressure
+
+- implement all this features on the postgres and redis
+- The timeout is applided to both postgres and redis
+- But the retries is applied to only the redis
+- And backpressure is allowed for only 100 concurrent request
+
+### Observation
+
+- Added timeout so when the query took more time to respose
+- It will fall back to the exception
+- And the retries are added for the redis for 2 times
+- If the redis is down at the first time and it retries for the 2nd time to get the data
+- For only 100 concurrent request are allowed to the service if more it backpressure the request
+
+- If the redis is down the request is automatically fallback to the database
+- and if the database is down and the data is in the cache it return the data from cache
+- if the data is not cached and DB is down then the request return the 503 service unavailable
+- That particular service is not been processed
