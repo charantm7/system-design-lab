@@ -40,5 +40,12 @@ services:
     volumes:
       - /path/to/redis-persistence:/bitnami/redis/data
 
+  worker:
+    image: system-design
+    command: rq worker default
+    depends_on:
+      - redis
+      - db
+
 volumes:
   pgdata:

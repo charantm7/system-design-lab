@@ -16,7 +16,7 @@ async def health_point():
     return {"status": "ok", "instance": socket.gethostname()}
 
 
-@app.post("/data/{item}")
+@app.post("/data")
 async def create_data(item: str):
 
     job = queue.enqueue(save_data, item)
@@ -29,7 +29,7 @@ async def read_data(item: int, db: Session = Depends(get_db)):
     cache_key = f"Data:{item}"
 
     # try cache not db
-    cached = await get_cached(cache_key)
+    cached = get_cached(cache_key)
 
     if cached:
         return {"source": "cache", "data": cached}
@@ -46,6 +46,6 @@ async def read_data(item: int, db: Session = Depends(get_db)):
     if not result:
         return {"Message": "Data not found"}
     # store in cache
-    await set_cache(key=cache_key, value=result.text)
+    set_cache(key=cache_key, value=result.text)
 
     return {"source": "db", "data": result.text}

@@ -12,13 +12,9 @@ redis_client = redis.Redis(
 
 queue = Queue("default", connection=redis_client)
 
-# retry limit
 
-
-async def get_cached(key):
-
+def get_cached(key):
     for attempt in range(2):
-
         try:
             return redis_client.get(key)
         except Exception:
@@ -26,9 +22,8 @@ async def get_cached(key):
                 return None
 
 
-async def set_cache(key, value, ttl=6000):
-
+def set_cache(key, value, ttl=6000):
     try:
-        redis_client.setex(key, ttl, value=value)
+        redis_client.setex(key, ttl, value)
     except Exception:
         pass
