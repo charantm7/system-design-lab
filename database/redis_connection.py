@@ -1,4 +1,5 @@
 import redis
+from rq import Queue
 
 redis_client = redis.Redis(
     host="redis",
@@ -9,19 +10,20 @@ redis_client = redis.Redis(
     decode_responses=True
 )
 
+queue = Queue("default", connection=redis_client)
 
 # retry limit
+
+
 async def get_cached(key):
 
     for attempt in range(2):
 
         try:
             return redis_client.get(key)
-        except Exception as e:
+        except Exception:
             if attempt == 1:
                 return None
-
-# set cache
 
 
 async def set_cache(key, value, ttl=6000):

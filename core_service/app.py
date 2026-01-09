@@ -5,7 +5,8 @@ import socket
 
 from database.model import Data
 from database.postgres_connection import SessionLocal, get_db
-from database.redis_connection import get_cached, set_cache
+from database.redis_connection import get_cached, set_cache, queue
+from .worker import save_data
 
 app = FastAPI()
 
@@ -16,12 +17,11 @@ async def health_point():
 
 
 @app.post("/data/{item}")
-async def create_data(item: str, db: Session = Depends(get_db)):
-    data = Data(text=item)
-    db.add(data)
-    db.commit()
-    db.refresh(data)
-    return {"id": data.id, "Message": data.text}
+async def create_data(item: str):
+
+    job = queue.enqueue(save_data, item)
+
+    return {"status": "Accepted", "Job ID": job.id}
 
 
 @app.get("/data/{item}")
