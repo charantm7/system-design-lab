@@ -43,8 +43,21 @@ services:
   worker:
     image: system-design
     command: rq worker default
+    env_file:
+      - .env
+    volumes:
+      - .:/app
     depends_on:
       - redis
+      - db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+    depends_on:
       - db
 
 volumes:
